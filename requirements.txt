@@ -4,3 +4,9 @@ torchvision==0.16.2
 numpy==1.25.2
 pillow==9.4.0
 streamlit_image_annotation==0.3.2
+Pillow
+matplotlib
+pandas
+numpy
+opencv-python-headless
+git+https://github.com/facebookresearch/segment-anything.git
