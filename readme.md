@@ -22,5 +22,5 @@ There are two ways to run and explore this tiny application.
 - The images were taken from the [2017 COCO-Dataset](https://cocodataset.org/#home).
 - The used model is a [SSDLITE320_MOBILENET_V3_LARGE](https://pytorch.org/vision/main/models/generated/torchvision.models.detection.ssdlite320_mobilenet_v3_large.html#torchvision.models.detection.ssdlite320_mobilenet_v3_large)
   from the torchvision package.
-- The app uses a [annotations tool](https://github.com/hirune924/Streamlit-Image-Annotation/tree/master)
+- The app uses an [annotations tool](https://github.com/hirune924/Streamlit-Image-Annotation/tree/master)
   that was created by [hirune924](https://github.com/hirune924).
