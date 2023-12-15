@@ -59,8 +59,7 @@ def detect(model, image: Image, score_threshold: float) -> (Image, int):
 
     # draw the bounding boxes
     image = draw_bounding_boxes(image=transforms.functional.to_image(image),
-                                boxes=boxes, labels=labels, width=3, colors="red",
-                                font="Times New Roman", font_size=30)
+                                boxes=boxes, labels=labels, width=3, colors="red")
     image = transforms.functional.to_pil_image(image)
 
     return image, len(boxes)
