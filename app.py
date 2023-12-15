@@ -1,3 +1,4 @@
+from annotater import annotate
 import streamlit as st
 import numpy as np
 from time import sleep
@@ -75,14 +76,16 @@ def correct():
     sleep(2)
 
 
-def incorrect():
+def incorrect(image_path: str):
     """
     This function is called when the user clicks on the incorrect button.
+    :param image_path: The path of the image that is going to be annotated.
     :return: None.
     """
 
-    st.error("Oh no! I'm sorry. I'll try better next time.")
-    sleep(2)
+    st.error("Oh no! I'm sorry. I'll try better next time. Please help me annotate the image.")
+    st.session_state['annotate'] = True
+    st.session_state['image_to_annotate'] = image_path
 
 
 def app():
@@ -101,20 +104,31 @@ def app():
     The user is able to confirm the models' prediction or to correct them.""")
     st.divider()
 
-    img = Image.open(f"images/{rg.integers(1, 5, None, endpoint=True)}.jpg")
-    (img, num) = detect(model, img, 0.5)
+    image_placeholder = st.empty()
 
-    st.image(img)
-    st.divider()
+    if 'annotate' in st.session_state.keys():
+        annotate(model, st.session_state['image_to_annotate'], image_placeholder)
 
-    if num == 1:
-        st.markdown("### I've detected **1** teddy bear. Look at the box. Am I correct?")
     else:
-        st.markdown(f"### I've detected **{num}** teddy bears. Look at the boxes. Am I correct?")
+        image_number = rg.integers(1, 5, None, endpoint=True)
+        img = Image.open(f"images/{image_number}.jpg")
+        (img, num) = detect(model, img, 0.5)
 
-    c1, c2 = st.columns(2)
-    c1.button("Correct ✅", on_click=correct)
-    c2.button("Incorrect ❌", on_click=incorrect)
+        image_placeholder.empty()
+        with image_placeholder.container():
+            st.image(img)
+
+        st.divider()
+
+        if num == 1:
+            st.markdown("### I've detected **1** teddy bear. Look at the box. Am I correct?")
+        else:
+            st.markdown(f"### I've detected **{num}** teddy bears. Look at the boxes. Am I correct?")
+
+        c1, c2 = st.columns(2)
+        c1.button("Correct ✅", on_click=correct)
+        c2.button("Incorrect ❌", on_click=incorrect,
+                  args=(f"images/{image_number}.jpg",))
 
 
 if __name__ == "__main__":
