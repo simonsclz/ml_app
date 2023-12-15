@@ -15,7 +15,7 @@ There are two ways to run and explore this tiny application.
     ```
 
 2. The second method is to use to visit the project's Streamlit
-    cloud website. Therefore, click [this link]() to get there.
+    cloud website. Therefore, click [this link](https://simple-ml-app.streamlit.app) to get there.
 
 ##  References
 
