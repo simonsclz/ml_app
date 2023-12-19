@@ -83,12 +83,11 @@ def annotate(model, image_path, image_placeholder):
             result_dict = {image_path: {'bboxes': [], 'labels': []}}
             st.session_state['result_dict'] = result_dict.copy()
 
-        if 'annotater_created' not in st.session_state:
-            new_labels = sia.detection(image_path=image_path,
-                                       bboxes=st.session_state['result_dict'][image_path]['bboxes'],
-                                       labels=st.session_state['result_dict'][image_path]['labels'],
-                                       label_list=label_list, line_width=2, key=image_path)
-            st.session_state['annotater_created'] = True
+        new_labels = sia.detection(image_path=image_path,
+                                   bboxes=st.session_state['result_dict'][image_path]['bboxes'],
+                                   labels=st.session_state['result_dict'][image_path]['labels'],
+                                   label_list=label_list, line_width=2, key=image_path)
+        st.session_state['annotater_created'] = True
 
         if new_labels is not None:
             st.session_state['result_dict'][image_path]['bboxes'] = [v['bbox'] for v in new_labels]
