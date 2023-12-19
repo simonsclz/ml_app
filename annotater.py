@@ -40,7 +40,7 @@ def train(model, image, bboxes, labels):
     bboxes[:, 2] = bboxes[:, 0] + bboxes[:, 2]  # x2 = x1 + width
     bboxes[:, 3] = bboxes[:, 1] + bboxes[:, 3]  # y2 = y1 + height
 
-    optimizer = load_optimizer(model, lr=0.1)
+    optimizer = load_optimizer(model, lr=1 ** (-8))
 
     # set model to training mode
     model.train()
