@@ -60,36 +60,33 @@ def train(model, image, bboxes, labels):
     print(f"Loss: {loss.item()}")
 
     # return to the main page
-    sleep(2)
+    sleep(1)
     del st.session_state['annotate'], st.session_state['image_to_annotate']
     del st.session_state['result_dict']
     st.experimental_rerun()
 
 
-def annotate(model, image_path, image_placeholder):
+def annotate(model, image_path):
     """
     This function is used to create the annotater for the Streamlit application.
     :param model: The model used to detect teddy bears in the image.
     :param image_path: The path of the image to annotate.
-    :param image_placeholder: The placeholder (Streamlit empty container) for the annotater.
     :return: None. Runs the annotater.
     """
 
-    image_placeholder.empty()
-    with image_placeholder.container():
-        label_list = ['teddy bear']
-        if 'result_dict' not in st.session_state:
-            result_dict = {image_path: {'bboxes': [], 'labels': []}}
-            st.session_state['result_dict'] = result_dict.copy()
+    label_list = ['teddy bear']
+    if 'result_dict' not in st.session_state:
+        result_dict = {image_path: {'bboxes': [], 'labels': []}}
+        st.session_state['result_dict'] = result_dict.copy()
 
-        new_labels = sia.detection(image_path=image_path,
-                                   bboxes=st.session_state['result_dict'][image_path]['bboxes'],
-                                   labels=st.session_state['result_dict'][image_path]['labels'],
-                                   label_list=label_list, line_width=2, key=image_path)
+    new_labels = sia.detection(image_path=image_path,
+                               bboxes=st.session_state['result_dict'][image_path]['bboxes'],
+                               labels=st.session_state['result_dict'][image_path]['labels'],
+                               label_list=label_list, line_width=2, key=image_path)
 
-        if new_labels is not None:
-            st.session_state['result_dict'][image_path]['bboxes'] = [v['bbox'] for v in new_labels]
-            st.session_state['result_dict'][image_path]['labels'] = [v['label_id'] for v in new_labels]
+    if new_labels is not None:
+        st.session_state['result_dict'][image_path]['bboxes'] = [v['bbox'] for v in new_labels]
+        st.session_state['result_dict'][image_path]['labels'] = [v['label_id'] for v in new_labels]
 
-            train(model, Image.open(image_path), st.session_state['result_dict'][image_path]['bboxes'],
-                  st.session_state['result_dict'][image_path]['labels'])
+        train(model, Image.open(image_path), st.session_state['result_dict'][image_path]['bboxes'],
+              st.session_state['result_dict'][image_path]['labels'])
