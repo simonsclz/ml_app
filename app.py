@@ -82,7 +82,6 @@ def incorrect(image_path: str):
     :return: None.
     """
 
-    st.error("Oh no! I'm sorry. I'll try better next time. Please help me annotate the image.")
     st.session_state['annotate'] = True
     st.session_state['image_to_annotate'] = image_path
 
@@ -96,7 +95,10 @@ def app():
     rg = load_random_generator(42)
     model = load_model()
 
-    st.title("Streamlit Person Detection")
+    if 'annotate' in st.session_state.keys():
+        st.error("Oh no! I'm sorry. I'll try better next time. Please help me annotate the image.")
+
+    st.title("Streamlit Teddy Bear Detection 🧸")
     st.markdown("""This is a simple application that deploys a pre-trained ML-model to
     detect teddy bears in images. The model used is a SSDLite320 with a MobilenetV3 backbone from
     the torchvision package. The model was trained on the COCO dataset.
@@ -106,7 +108,11 @@ def app():
     image_placeholder = st.empty()
 
     if 'annotate' in st.session_state.keys():
-        annotate(model, st.session_state['image_to_annotate'], image_placeholder)
+        image_placeholder.empty()
+        st.error("""Please annotate the image.
+        Draw the bounding boxes and confirm by clicking the 'Complete' button.
+        Thank you for your help!""")
+        annotate(model, st.session_state['image_to_annotate'])
 
     else:
         image_number = rg.integers(1, 5, None, endpoint=True)
