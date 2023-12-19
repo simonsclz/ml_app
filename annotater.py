@@ -11,12 +11,12 @@ def load_optimizer(_model, lr: float):
 
     """
     This function loads the optimizer for the model.
-    :param _model: The model to load the optimizer for.
+    :param _model: The model to load the optimizer for. Marked with an underscore since it is cached.
     :param lr: The learning rate of the optimizer.
     :return: The torch.optim.Adam optimizer.
     """
 
-    return torch.optim.Adam(_model.parameters(), lr=lr, weight_decay=0.005)
+    return torch.optim.SGD(_model.parameters(), lr=lr, weight_decay=0.0005)
 
 
 def train(model, image, bboxes, labels):
@@ -40,7 +40,7 @@ def train(model, image, bboxes, labels):
     bboxes[:, 2] = bboxes[:, 0] + bboxes[:, 2]  # x2 = x1 + width
     bboxes[:, 3] = bboxes[:, 1] + bboxes[:, 3]  # y2 = y1 + height
 
-    optimizer = load_optimizer(model, lr=10 ** (-6))
+    optimizer = load_optimizer(model, lr=10 ** (-4))
 
     # set model to training mode
     model.train()
