@@ -105,8 +105,7 @@ def app():
 
     image_placeholder = st.empty()
 
-    if ('annotate' in st.session_state.keys() and
-            'annotater_created' not in st.session_state.keys()):
+    if 'annotate' in st.session_state.keys():
         annotate(model, st.session_state['image_to_annotate'], image_placeholder)
 
     else:
