@@ -16,7 +16,7 @@ def load_optimizer(_model, lr: float):
     :return: The torch.optim.Adam optimizer.
     """
 
-    return torch.optim.Adam(_model.parameters(), lr=lr, weight_decay=0.005)
+    return torch.optim.SGD(_model.parameters(), lr=lr, weight_decay=0.0005)
 
 
 def train(model, image, bboxes, labels):
